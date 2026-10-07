@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order Placed | Smart Canteen</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/checkout.css">
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="container">
+      <a href="index.html" class="logo"><span class="emoji">🍴</span> Smart Canteen</a>
+      <div class="nav-links" id="nav-links">
+        <a href="index.html">Home</a>
+        <a href="cart.html" class="cart-btn">🛒 Cart <span class="cart-count">0</span></a>
+        <a href="admin-login.html" class="admin-link">👤 Admin</a>
+      </div>
+    </div>
+  </nav>
+
+  <section class="success-page">
+    <div class="container">
+      <div id="success-content">
+        <div class="state-box"><div class="spinner"></div><p>Loading your order...</p></div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2026 Smart College Canteen Management System. Made for TY BCA Project.</p>
+  </footer>
+
+  <script src="js/api.js"></script>
+  <script src="js/cart.js"></script>
+  <script>
+    function escapeHtml(str) {
+      const div = document.createElement("div");
+      div.textContent = str;
+      return div.innerHTML;
+    }
+
+    function getQueryParam(name) {
+      return new URLSearchParams(window.location.search).get(name);
+    }
+
+    async function loadOrder() {
+      const orderId = getQueryParam("orderId") || localStorage.getItem("lastOrderId");
+      const container = document.getElementById("success-content");
+
+      if (!orderId) {
+        container.innerHTML = `<div class="state-box"><p>No recent order found.</p><br><a href="index.html" class="btn btn-primary">Back to Menu</a></div>`;
+        return;
+      }
+
+      try {
+        const order = await OrderAPI.getById(orderId);
+
+        // once the order is completed or cancelled, stop tracking it everywhere
+        if (order.orderStatus === "COMPLETED" || order.orderStatus === "CANCELLED") {
+          clearActiveOrder();
+        }
+        const itemsHtml = order.items.map(i => `
+          <div class="order-line">
+            <span>${escapeHtml(i.foodName)} x ${i.quantity}</span>
+            <span>${formatRupees(i.price * i.quantity)}</span>
+          </div>
+        `).join("");
+
+        container.innerHTML = `
+          <div class="success-icon">✔</div>
+          <h1>Order Placed Successfully!</h1>
+          <div class="order-id-badge">Order ID: #${order.id}</div>
+
+          <div class="success-card">
+            ${itemsHtml}
+            <div class="summary-total" style="margin-top:10px;">
+              <span>Total</span><span>${formatRupees(order.totalAmount)}</span>
+            </div>
+            <div class="order-line"><span>Payment Method</span><span>${order.paymentMethod}</span></div>
+            <div class="order-line"><span>Payment Status</span><span>${order.paymentStatus.replace("_", " ")}</span></div>
+            <div class="order-line"><span>Order Status</span><span>${order.orderStatus}</span></div>
+          </div>
+
+          <p style="margin-top:20px; color:#6b7280;">Please collect your order from the canteen.</p>
+          <br>
+          <a href="index.html" class="btn btn-primary">Back to Menu</a>
+        `;
+      } catch (err) {
+        container.innerHTML = `<div class="state-box"><p>${err.message}</p><br><a href="index.html" class="btn btn-primary">Back to Menu</a></div>`;
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", loadOrder);
+    // Keep this page's status fresh too, in case the admin updates it
+    // while the customer is still looking at this screen.
+    setInterval(loadOrder, 15000);
+  </script>
+</body>
+</html>

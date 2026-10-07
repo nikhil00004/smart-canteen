@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Orders | Smart Canteen Admin</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="admin-body">
+
+  <div class="admin-shell">
+    <aside class="sidebar" id="sidebar">
+      <div class="logo"><span class="emoji">🍴</span> Smart Canteen</div>
+      <nav>
+        <a href="admin-dashboard.html">📊 Dashboard</a>
+        <a href="admin-orders.html" class="active">🧾 Orders</a>
+        <a href="admin-menu.html">🍔 Menu Management</a>
+        <a href="admin-categories.html">🗂️ Categories</a>
+        <a href="admin-payment.html">💳 Payment QR Code</a>
+      </nav>
+      <div class="sidebar-logout">
+        <button class="logout-btn">Logout</button>
+      </div>
+    </aside>
+
+    <main class="admin-content">
+      <div class="admin-topbar">
+        <div style="display:flex; align-items:center; gap:12px;">
+          <button class="sidebar-toggle-btn" id="sidebar-toggle-btn">☰</button>
+          <h1>Orders</h1>
+        </div>
+        <button class="btn btn-outline" onclick="loadOrders()">🔄 Refresh</button>
+      </div>
+
+      <div class="panel">
+        <table>
+          <thead>
+            <tr>
+              <th>Order ID</th>
+              <th>Customer</th>
+              <th>Items</th>
+              <th>Total</th>
+              <th>Payment Method</th>
+              <th>Payment Status</th>
+              <th>Order Status</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody id="orders-body">
+            <tr><td colspan="8" style="text-align:center;">Loading...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+
+  <div id="toast-container"></div>
+
+  <script src="js/api.js"></script>
+  <script src="js/admin.js"></script>
+  <script src="js/orders.js"></script>
+  <script>
+    requireAdminLogin();
+  </script>
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard | Smart Canteen Admin</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="admin-body">
+
+  <div class="admin-shell">
+    <aside class="sidebar" id="sidebar">
+      <div class="logo"><span class="emoji">🍴</span> Smart Canteen</div>
+      <nav>
+        <a href="admin-dashboard.html" class="active">📊 Dashboard</a>
+        <a href="admin-orders.html">🧾 Orders</a>
+        <a href="admin-menu.html">🍔 Menu Management</a>
+        <a href="admin-categories.html">🗂️ Categories</a>
+        <a href="admin-payment.html">💳 Payment QR Code</a>
+      </nav>
+      <div class="sidebar-logout">
+        <button class="logout-btn">Logout</button>
+      </div>
+    </aside>
+
+    <main class="admin-content">
+      <div class="admin-topbar">
+        <div style="display:flex; align-items:center; gap:12px;">
+          <button class="sidebar-toggle-btn" id="sidebar-toggle-btn">☰</button>
+          <h1>Dashboard</h1>
+        </div>
+      </div>
+
+      <div class="stats-grid" id="stats-grid">
+        <div class="stat-card">
+          <div class="stat-label">Total Orders</div>
+          <div class="stat-value" id="stat-total">0</div>
+        </div>
+        <div class="stat-card pending">
+          <div class="stat-label">Pending Orders</div>
+          <div class="stat-value" id="stat-pending">0</div>
+        </div>
+        <div class="stat-card preparing">
+          <div class="stat-label">Preparing Orders</div>
+          <div class="stat-value" id="stat-preparing">0</div>
+        </div>
+        <div class="stat-card ready">
+          <div class="stat-label">Ready Orders</div>
+          <div class="stat-value" id="stat-ready">0</div>
+        </div>
+        <div class="stat-card completed">
+          <div class="stat-label">Completed Orders</div>
+          <div class="stat-value" id="stat-completed">0</div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h3>Recent Orders</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Order ID</th>
+              <th>Customer</th>
+              <th>Total</th>
+              <th>Payment</th>
+              <th>Status</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody id="recent-orders-body">
+            <tr><td colspan="6" style="text-align:center;">Loading...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+
+  <div id="toast-container"></div>
+
+  <script src="js/api.js"></script>
+  <script src="js/admin.js"></script>
+  <script>
+    requireAdminLogin();
+    document.addEventListener("DOMContentLoaded", loadDashboardStats);
+  </script>
+</body>
+</html>

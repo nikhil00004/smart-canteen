@@ -1,0 +1,8 @@
+out/
+.git/
+*.class
+*.bat
+*.sh
+README.md
+.gitignore
+myysql.sql

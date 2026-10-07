@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Cart | Smart Canteen</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/cart.css">
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="container">
+      <a href="index.html" class="logo"><span class="emoji">🍴</span> Smart Canteen</a>
+      <div class="nav-links" id="nav-links">
+        <a href="index.html">Home</a>
+        <a href="index.html#menu-section">Menu</a>
+        <a href="cart.html" class="cart-btn">🛒 Cart <span class="cart-count">0</span></a>
+        <a href="admin-login.html" class="admin-link">👤 Admin</a>
+      </div>
+      <button class="hamburger" id="hamburger-btn" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <section class="cart-page">
+    <div class="container">
+      <h1>Your Cart</h1>
+
+      <div id="cart-content"></div>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2026 Smart College Canteen Management System. Made for TY BCA Project.</p>
+  </footer>
+
+  <div id="toast-container"></div>
+
+  <script src="js/api.js"></script>
+  <script src="js/cart.js"></script>
+  <script>
+    const hamburger = document.getElementById("hamburger-btn");
+    const navLinks = document.getElementById("nav-links");
+    if (hamburger) hamburger.addEventListener("click", () => navLinks.classList.toggle("open"));
+
+    function escapeHtml(str) {
+      const div = document.createElement("div");
+      div.textContent = str;
+      return div.innerHTML;
+    }
+
+    function renderCartPage() {
+      const container = document.getElementById("cart-content");
+      const cart = getCart();
+
+      if (cart.length === 0) {
+        container.innerHTML = `
+          <div class="state-box">
+            <div class="icon">🛒</div>
+            <p>Your cart is empty.</p>
+            <br>
+            <a href="index.html" class="btn btn-primary">Browse Menu</a>
+          </div>
+        `;
+        return;
+      }
+
+      const itemsHtml = cart.map(line => `
+        <div class="cart-item" data-id="${line.menuItemId}">
+          ${line.imagePath
+            ? `<img class="cart-item-img" src="${line.imagePath}">`
+            : `<div class="cart-item-img-placeholder">🍽️</div>`}
+          <div class="cart-item-info">
+            <div class="cart-item-name">${escapeHtml(line.name)}</div>
+            <div class="cart-item-price">${formatRupees(line.price)} each</div>
+            <button class="cart-item-remove" onclick="handleRemove(${line.menuItemId})">Remove</button>
+          </div>
+          <div class="qty-control">
+            <button onclick="handleDecrease(${line.menuItemId})">-</button>
+            <span>${line.quantity}</span>
+            <button onclick="handleIncrease(${line.menuItemId})">+</button>
+          </div>
+          <div class="cart-item-subtotal">${formatRupees(line.price * line.quantity)}</div>
+        </div>
+      `).join("");
+
+      const total = getCartTotal();
+
+      container.innerHTML = `
+        <div class="cart-layout">
+          <div class="cart-items">${itemsHtml}</div>
+          <div class="cart-summary">
+            <h3>Order Summary</h3>
+            <div class="summary-row"><span>Items</span><span>${getCartItemCount()}</span></div>
+            <div class="summary-total"><span>Total</span><span>${formatRupees(total)}</span></div>
+            <button class="btn btn-primary btn-block" onclick="window.location.href='checkout.html'">Proceed to Checkout</button>
+          </div>
+        </div>
+      `;
+    }
+
+    function handleIncrease(id) { increaseQuantity(id); renderCartPage(); }
+    function handleDecrease(id) { decreaseQuantity(id); renderCartPage(); }
+    function handleRemove(id) { removeFromCart(id); renderCartPage(); }
+
+    document.addEventListener("DOMContentLoaded", renderCartPage);
+  </script>
+</body>
+</html>

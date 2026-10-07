@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Canteen | Order Food Online</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="container">
+      <a href="index.html" class="logo"><span class="emoji">🍴</span> Smart Canteen</a>
+
+      <div class="nav-links" id="nav-links">
+        <a href="index.html">Home</a>
+        <a href="index.html#menu-section" onclick="scrollToMenu()">Menu</a>
+        <a href="cart.html" class="cart-btn" style="color: white;">
+          🛒 Cart <span class="cart-count">0</span>
+        </a>
+        <a href="admin-login.html" class="admin-link">👤 Admin</a>
+      </div>
+
+      <button class="hamburger" id="hamburger-btn" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container">
+      <h1>Craving something tasty? <span>We've got you.</span></h1>
+      <p>Order your favourite canteen food online — skip the queue, pick it up fresh, pay however you like.</p>
+      <button class="btn btn-primary" onclick="scrollToMenu()">Explore Menu</button>
+    </div>
+  </section>
+
+  <!-- Menu -->
+  <section class="menu-section" id="menu-section">
+    <div class="container">
+      <h2 class="section-title">Our Menu</h2>
+      <p class="section-subtitle">Freshly prepared, category-wise</p>
+
+      <div class="category-tabs" id="category-tabs"></div>
+
+      <div id="menu-container"></div>
+    </div>
+  </section>
+
+  <!-- Floating cart button (mobile) -->
+  <a href="cart.html" class="floating-cart">🛒 View Cart (<span class="cart-count">0</span>)</a>
+
+  <footer>
+    <p>&copy; 2026 Smart College Canteen Management System. Made for TY BCA Project.</p>
+  </footer>
+
+  <div id="toast-container"></div>
+
+  <script src="js/api.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/menu.js"></script>
+</body>
+</html>

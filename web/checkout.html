@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout | Smart Canteen</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/checkout.css">
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="container">
+      <a href="index.html" class="logo"><span class="emoji">🍴</span> Smart Canteen</a>
+      <div class="nav-links" id="nav-links">
+        <a href="index.html">Home</a>
+        <a href="cart.html" class="cart-btn">🛒 Cart <span class="cart-count">0</span></a>
+        <a href="admin-login.html" class="admin-link">👤 Admin</a>
+      </div>
+      <button class="hamburger" id="hamburger-btn" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <section class="checkout-page">
+    <div class="container">
+      <h1>Checkout</h1>
+
+      <div class="checkout-layout">
+        <!-- Left column: form + payment -->
+        <div>
+          <form id="checkout-form" class="form-card" style="margin-bottom:24px;">
+            <h3>Customer Details</h3>
+
+            <div class="form-group">
+              <label for="customer-name">Full Name</label>
+              <input type="text" id="customer-name" placeholder="Enter your name" required>
+              <div class="field-error" id="name-error"></div>
+            </div>
+
+            <div class="form-group">
+              <label for="mobile-number">Mobile Number</label>
+              <input type="tel" id="mobile-number" placeholder="10-digit mobile number" maxlength="10" required>
+              <div class="field-error" id="mobile-error"></div>
+            </div>
+          </form>
+
+          <div class="payment-card">
+            <h3>Payment Method</h3>
+            <div class="payment-options">
+              <div class="payment-option" id="payment-online">
+                <span class="icon">📱</span> Online Payment
+              </div>
+              <div class="payment-option" id="payment-offline">
+                <span class="icon">💵</span> Pay at Counter
+              </div>
+            </div>
+
+            <div class="qr-box" id="qr-box">
+              <p id="qr-loading">Loading QR code...</p>
+              <img id="qr-image" src="" alt="Payment QR Code" style="display:none;">
+              <div class="qr-amount" id="qr-amount">₹0</div>
+              <p>Scan and pay using any UPI app</p>
+              <button type="button" class="btn btn-secondary btn-block" id="payment-done-btn">I Have Completed Payment</button>
+            </div>
+
+            <div class="offline-box" id="offline-box">
+              <div class="icon">💵</div>
+              <strong>Cash on Pickup</strong>
+              <p>Please pay at the canteen counter while collecting your order.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right column: order summary -->
+        <div class="summary-card">
+          <h3>Order Summary</h3>
+          <div id="order-lines"></div>
+          <div class="summary-total">
+            <span>Total</span>
+            <span id="order-total">₹0</span>
+          </div>
+          <button type="submit" form="checkout-form" class="btn btn-primary btn-block" id="place-order-btn" disabled>Select a payment method</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2026 Smart College Canteen Management System. Made for TY BCA Project.</p>
+  </footer>
+
+  <div id="toast-container"></div>
+
+  <script src="js/api.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/checkout.js"></script>
+  <script>
+    const hamburger = document.getElementById("hamburger-btn");
+    const navLinks = document.getElementById("nav-links");
+    if (hamburger) hamburger.addEventListener("click", () => navLinks.classList.toggle("open"));
+  </script>
+</body>
+</html>
