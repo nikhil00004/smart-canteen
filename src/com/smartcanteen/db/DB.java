@@ -6,11 +6,12 @@ import java.sql.SQLException;
 
 public class DB {
 
-    public static final String DB_URL =
-            "jdbc:mysql://localhost:3306/smart_canteen_db?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
-
-    public static final String DB_USER = "root";
-    public static final String DB_PASSWORD = "Nikhil@0608";
+    public static final String DB_URL = System.getenv().getOrDefault(
+            "DB_URL",
+            "jdbc:mysql://localhost:3306/smart_canteen_db?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true"
+    );
+    public static final String DB_USER = System.getenv().getOrDefault("DB_USER", "root");
+    public static final String DB_PASSWORD = System.getenv().getOrDefault("DB_PASSWORD", "Nikhil@0608");
 
     static {
         try {
