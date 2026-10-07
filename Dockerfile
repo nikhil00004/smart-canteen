@@ -9,17 +9,16 @@ COPY lib/ /app/lib/
 COPY src/ /app/src/
 COPY web/ /app/web/
 COPY sql/ /app/sql/
-COPY uploads/ /app/uploads/
 
-# Create out directory
-RUN mkdir -p out
+# Create necessary directories
+RUN mkdir -p out uploads/food uploads/qr
 
 # Compile the project
 RUN find src -name "*.java" > sources.txt && \
     javac -cp "lib/*" -d out @sources.txt && \
     rm sources.txt
 
-# Expose port (Render will set PORT env variable)
+# Expose port
 EXPOSE 8080
 
 # Start the application
